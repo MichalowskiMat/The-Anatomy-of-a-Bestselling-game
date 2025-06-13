@@ -1,0 +1,58 @@
+--Global
+with total_sales AS (
+SELECT
+    genre,
+    ROUND(SUM(global_sales)::numeric, 2) AS t_sales
+FROM games_sales
+GROUP BY
+    genre
+ORDER BY 
+    t_sales DESC
+),
+na_total_sales AS (
+--NA
+SELECT
+    genre,
+    ROUND(SUM(na_sales)::numeric, 2) AS na_sales
+FROM games_sales
+GROUP BY
+    genre
+ORDER BY 
+    na_sales DESC
+),
+eu_total_sales AS (
+--EU
+SELECT
+    genre,
+    ROUND(SUM(eu_sales)::numeric, 2) AS eu_sales
+FROM games_sales
+GROUP BY
+    genre
+ORDER BY 
+    eu_sales DESC
+),
+jp_total_sales AS (
+--JP
+SELECT
+    genre,
+    ROUND(SUM(jp_sales)::numeric, 2) AS jp_sales
+FROM games_sales
+GROUP BY
+    genre
+ORDER BY 
+    jp_sales DESC
+)
+SELECT
+    t.genre,
+    t.t_sales,
+    na.na_sales,
+    round((na.na_sales * 100) / t.t_sales, 2) as na_perc_of_total,
+    eu.eu_sales,
+    round((eu.eu_sales * 100) / t.t_sales, 2) as eu_perc_of_total,
+    jp.jp_sales,
+    round((jp.jp_sales * 100) / t.t_sales, 2) as jp_perc_of_total
+FROM total_sales t
+LEFT JOIN na_total_sales na ON t.genre = na.genre
+LEFT JOIN eu_total_sales eu ON t.genre = eu.genre
+LEFT JOIN jp_total_sales jp ON t.genre = jp.genre
+ORDER BY t.t_sales DESC;

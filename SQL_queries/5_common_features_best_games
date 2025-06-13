@@ -1,0 +1,68 @@
+--What are the common characteristics of the highest-selling games globally?
+--common features 
+--(platform)
+
+WITH top_games AS
+(
+    SELECT
+        name,
+        platform,
+        publisher,
+        year,
+        genre,
+        global_sales
+    FROM games_sales
+    ORDER BY global_sales DESC
+    LIMIT 100
+)
+SELECT
+    platform,
+    COUNT(*) as games_count
+FROM top_games
+GROUP BY platform
+ORDER BY games_count DESC
+
+
+--publisher
+
+WITH top_games AS
+(
+    SELECT
+        name,
+        platform,
+        publisher,
+        year,
+        genre,
+        global_sales
+    FROM games_sales
+    ORDER BY global_sales DESC
+    LIMIT 100
+)
+SELECT
+    publisher,
+    COUNT(*) as games_count
+FROM top_games
+GROUP BY publisher
+ORDER BY games_count DESC
+
+-- genre
+
+WITH top_games AS
+(
+    SELECT
+        name,
+        platform,
+        publisher,
+        year,
+        genre,
+        global_sales
+    FROM games_sales
+    ORDER BY global_sales DESC
+    LIMIT 100
+)
+SELECT
+    genre,
+    COUNT(*) as games_count
+FROM top_games
+GROUP BY genre
+ORDER BY games_count DESC

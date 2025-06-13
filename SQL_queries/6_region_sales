@@ -1,0 +1,53 @@
+--Which region contributes the most to global sales?
+--What are the sales proportions (NA, EU, JP, Other) for bestsellers and mid-tier games?
+
+WITH percentiles AS (
+    SELECT
+        percentile_cont(0.25) WITHIN GROUP (ORDER BY global_sales) AS worst_25,
+        percentile_cont(0.75) WITHIN GROUP (ORDER BY global_sales) AS best_25
+    FROM games_sales
+),
+segmented AS (
+    SELECT 
+        *,
+        CASE
+            WHEN global_sales <= p.worst_25 THEN 'worst_25'
+            WHEN global_sales >= p.best_25 THEN 'best_25'
+            ELSE 'average_games'
+        END AS sales_segment
+    FROM games_sales gs
+    CROSS JOIN percentiles p
+),
+region_totals AS (
+    SELECT 
+        sales_segment,
+        SUM(na_sales) AS total_na,
+        SUM(eu_sales) AS total_eu,
+        SUM(jp_sales) AS total_jp,
+        SUM(other_sales) AS total_other,
+        SUM(global_sales) AS total_global
+    FROM segmented
+    GROUP BY sales_segment
+)
+SELECT 
+    sales_segment,
+    round(total_global::numeric, 2) as total_global,
+    ROUND((total_na / total_global * 100)::numeric, 2) AS na_perc_of_total,
+    ROUND((total_eu / total_global * 100)::numeric, 2) AS eu_perc_of_total,
+    ROUND((total_jp / total_global * 100)::numeric, 2) AS jp_perc_of_total,
+    ROUND((total_other / total_global * 100)::numeric, 2) AS other_perc_of_total
+FROM region_totals
+ORDER BY total_global DESC
+
+--How significant is the impact of the North American market (NA_Sales) on a game's global success?
+
+SELECT
+    name,
+    global_sales,
+    na_sales,
+    ROUND(((NA_sales * 100) / global_sales)::numeric, 2) AS NA_influence_on_total
+FROM 
+    games_sales
+ORDER BY 
+    global_sales DESC
+LIMIT 50

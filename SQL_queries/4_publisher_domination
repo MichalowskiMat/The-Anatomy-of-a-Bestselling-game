@@ -1,0 +1,41 @@
+-- Which publishers dominate the market?
+
+SELECT 
+    publisher,
+    ROUND(SUM(global_sales)::numeric, 2) AS total_sales,
+    ROUND(
+        SUM(global_sales)::numeric * 100.0 /
+        SUM(SUM(global_sales)) OVER ()::numeric, 2) AS perc_market_dominance
+FROM
+    games_sales
+GROUP BY
+    publisher
+ORDER BY    
+    total_sales DESC
+LIMIT 15
+
+-- Do some publishers specialize in certain regions or genres?
+
+WITH genre_share AS
+(
+    SELECT 
+        publisher,
+        genre,
+        ROUND(SUM(global_sales)::numeric, 2) AS sales_in_genre, 
+            ROUND(
+                (SUM(global_sales) * 100.0)::numeric / 
+                 SUM(SUM(global_sales)::numeric) OVER (PARTITION BY publisher)) AS genre_perc_publisher
+    FROM
+        games_sales
+    GROUP BY
+        publisher,
+        genre
+)
+SELECT *
+FROM
+    genre_share
+WHERE
+    genre_perc_publisher > 50
+ORDER BY
+    sales_in_genre DESC
+LIMIT 15 

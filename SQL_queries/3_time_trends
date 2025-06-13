@@ -1,0 +1,55 @@
+--How has the popularity of genres and platforms changed over time?
+
+SELECT
+    genre,
+    CONCAT(FLOOR(year / 10) * 10, 's') as decade,
+    ROUND(SUM(global_sales)::numeric, 2) as Total_sales
+FROM
+    games_sales
+WHERE
+    year BETWEEN '1980' AND '2019'
+GROUP BY
+    genre,
+    decade
+ORDER BY
+    genre,
+    decade
+
+-- When do peak sales occur for specific types of games?
+
+WITH peak_decade AS (
+    SELECT
+        genre,
+        CONCAT(FLOOR(year / 10) * 10, 's') as decade,
+        ROUND(SUM(global_sales)::numeric, 2) as Total_sales
+    FROM
+        games_sales
+    WHERE
+        year BETWEEN '1980' AND '2019'
+    GROUP BY
+        genre,
+        decade
+),
+
+genre_total_sales AS (
+    SELECT
+        genre,
+        sum(global_sales)::numeric AS genre_total
+    FROM
+        games_sales
+    GROUP BY
+        genre
+)
+
+SELECT DISTINCT ON (genre)
+    pd.genre,
+    pd.decade as peak_period,
+    pd.total_sales as total_in_peak_period,
+    round((pd.total_sales * 100)/ gts.genre_total, 2) as perc_of_all_time_sales
+FROM
+    peak_decade AS pd
+LEFT JOIN genre_total_sales AS gts ON
+    gts.genre = pd.genre
+ORDER BY
+    pd.genre,
+    pd.total_sales DESC

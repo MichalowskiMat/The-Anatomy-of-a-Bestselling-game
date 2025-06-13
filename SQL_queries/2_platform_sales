@@ -1,0 +1,55 @@
+--Global
+with total_sales AS (
+SELECT
+    platform,
+    ROUND(SUM(global_sales)::numeric, 2) AS t_sales
+FROM games_sales
+GROUP BY
+    platform
+ORDER BY 
+    t_sales DESC
+),
+na_total_sales AS (
+--NA
+SELECT
+    platform,
+    ROUND(SUM(na_sales)::numeric, 2) AS na_sales
+FROM games_sales
+GROUP BY
+    platform
+ORDER BY 
+    na_sales DESC
+),
+eu_total_sales AS (
+--EU
+SELECT
+    platform,
+    ROUND(SUM(eu_sales)::numeric, 2) AS eu_sales
+FROM games_sales
+GROUP BY
+    platform
+ORDER BY 
+    eu_sales DESC
+),
+jp_total_sales AS (
+--JP
+SELECT
+    platform,
+    ROUND(SUM(jp_sales)::numeric, 2) AS jp_sales
+FROM games_sales
+GROUP BY
+    platform
+ORDER BY 
+    jp_sales DESC
+)
+SELECT
+    t.platform,
+    t.t_sales,
+    na.na_sales,
+    eu.eu_sales,
+    jp.jp_sales
+FROM total_sales t
+LEFT JOIN na_total_sales na ON t.platform = na.platform
+LEFT JOIN eu_total_sales eu ON t.platform = eu.platform
+LEFT JOIN jp_total_sales jp ON t.platform = jp.platform
+ORDER BY t.t_sales DESC;
