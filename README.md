@@ -12,7 +12,7 @@
 
 ## What features of a game influence its sales success in global and regional markets?
 
-[SQL QUERIES - GENRES](SQL_queries\1_genre_sales)
+[SQL QUERIES - GENRES](SQL_queries/1_genre_sales)
 
 
 ***Which game genres sell best globally?***
