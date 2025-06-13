@@ -39,7 +39,7 @@ Sports and Shooter follow closely, especially dominant in Western markets.
 
 
 
-[SQL QUERIES - PLATFORMS](SQL_queries\2_platform_sales)
+[SQL QUERIES - PLATFORMS](SQL_queries/2_platform_sales)
 
 ***Which platforms are the most profitable?***
 
@@ -72,7 +72,7 @@ DS (175.57), PS (139.82), SNES (116.55),
 Also strong performances from 3DS, PSP, PS2, and NES.
 
 
-[SQL QUERIES - TIME TRENDS](SQL_queries\3_time_trends)
+[SQL QUERIES - TIME TRENDS](SQL_queries/3_time_trends)
 
 ***How has the popularity of genres and platforms changed over time?***
 
@@ -95,7 +95,7 @@ Almost all genres peaked in the 2000s, with Shooter games being the exception, r
 This indicates that the 2000s were a high-growth period for the gaming industry, while the 2010s saw refinements and genre-specific booms, especially in online multiplayer shooters.
 
 
-[SQL QUERIES - PUBLISHERS](SQL_queries\4_publisher_domination)
+[SQL QUERIES - PUBLISHERS](SQL_queries/4_publisher_domination)
 
 ***Which publishers dominate the market?***
 
@@ -121,7 +121,7 @@ Codemasters is a UK-based company renowned for racing games like the F1 and Dirt
 
 
 
-[SQL QUERIES - COMMON FEATURES](SQL_queries\5_common_features_best_games)
+[SQL QUERIES - COMMON FEATURES](SQL_queries/5_common_features_best_games)
 
 ***What are the common characteristics of the highest-selling games globally?***
 
@@ -154,7 +154,7 @@ Top sellers usually offer broad international appeal, combining accessible gamep
 Many best-selling games include multiplayer modes or long replay value, which keeps players engaged and encourages continued sales.
 
 
-[SQL QUERIES - REGIONS](SQL_queries\6_region_sales)
+[SQL QUERIES - REGIONS](SQL_queries/6_region_sales)
 
 ***Which region contributes the most to global sales?***
 
